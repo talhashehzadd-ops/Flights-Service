@@ -3,6 +3,11 @@ const { SuccessResponse, ErrorResponse} = require("../utils/common");
 
 const { AirplaneService } = require("../services/index");
 
+/**
+ * POST : /airplanes
+ * REQ-BODY : {modelNumber, capacity}
+ */
+
 async function createAirplane (req, res){
     try {
         const airplane = await AirplaneService.createAirplane({ // we are calling the createAirplane function of the airplane service and passing the data from the request body to that function, we are using await keyword because the createAirplane function is an asynchronous function and it returns a promise, so we need to wait for that promise to resolve and get the response from that function before we can send the response to the client
@@ -16,8 +21,6 @@ async function createAirplane (req, res){
   } 
     catch (error) {
         console.log (error);
-        // ErrorResponse.error = {explanation : "something went wrong"}
-        // ErrorResponse.message = "cannot create a new airplane object";
         ErrorResponse.error = error;
         return res
                  .status(error.statusCode)
@@ -26,6 +29,24 @@ async function createAirplane (req, res){
     }
 }
 
+
+async function getAirplanes (req, res){
+    try {
+        const airplane = await AirplaneService.getAirplanes();
+        SuccessResponse.data = airplane;
+        return res
+                  .status(StatusCodes.OK)
+                  .json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error;
+        return res
+                .status(error.statusCode)
+                .json(ErrorResponse);
+                
+    }
+}
+
 module.exports = {
-    createAirplane
+    createAirplane,
+    getAirplanes
 }

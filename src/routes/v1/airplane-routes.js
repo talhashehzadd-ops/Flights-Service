@@ -10,6 +10,12 @@ const router = express.Router();
 // /api/v1/airlanes POST request to create a new airplane
 router.post ('/', 
                  AirplaneMiddlewares.validateCreateRequest,
-                 AirplaneController.createAirplane)  
+                 AirplaneController.createAirplane) 
+
+// /api/v1/airlanes GET request to get all the airplanes
+
+router.get("/",
+        AirplaneController.getAirplanes)
+                 
 
 module.exports = router;
