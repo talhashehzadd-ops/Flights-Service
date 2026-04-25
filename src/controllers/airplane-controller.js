@@ -16,7 +16,7 @@ async function createAirplane (req, res){
         });
         SuccessResponse.data = airplane; //
         return res
-                .status(StatusCodes.CREATED)
+        .status(StatusCodes.CREATED)
                 .json (SuccessResponse);                       
   } 
     catch (error) {
@@ -30,9 +30,39 @@ async function createAirplane (req, res){
 }
 
 
+
+/**
+ * GET : /airplanes
+ * REQ-BODY : {}
+ */
+
+
 async function getAirplanes (req, res){
     try {
         const airplane = await AirplaneService.getAirplanes();
+        SuccessResponse.data = airplane;
+        return res
+                  .status(StatusCodes.OK)
+                  .json(SuccessResponse);
+                } catch (error) {
+                    ErrorResponse.error = error;
+                    return res
+                    .status(error.statusCode)
+                    .json(ErrorResponse);
+                    
+                }
+            }
+            
+            
+
+/**
+ * GET : /airplanes/:id
+ * REQ-BODY : {}
+ */
+
+async function getAirplane(req, res){
+    try {
+        const airplane = await AirplaneService.getAirplane(req.params.id);
         SuccessResponse.data = airplane;
         return res
                   .status(StatusCodes.OK)
@@ -46,7 +76,10 @@ async function getAirplanes (req, res){
     }
 }
 
+
+
 module.exports = {
     createAirplane,
-    getAirplanes
+    getAirplanes,
+    getAirplane
 }

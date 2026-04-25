@@ -1,5 +1,9 @@
 // All the query realted stuff will reside in this repository
+const { StatusCodes } = require("http-status-codes"); // we are importing the http status codes because we need to use the status codes in our error handling
+
 const { logger } = require ("../config");
+const AppError = require("../utils/error/app-error"); // we are importing the app error class because we need to create an instance of that class and throw the error in case of any error in our code
+
 class CrudRepository {
     constructor(model) {
         this.model = model; //  
@@ -26,6 +30,9 @@ class CrudRepository {
     //obtains a single query from the table using the primary key
     async get(data) {
         const response = await this.model.findByPk(data);
+        if (!response){
+            throw new AppError("Not able  to find the resource with the given id", StatusCodes.NOT_FOUND);
+        }
         return response;
     }
 

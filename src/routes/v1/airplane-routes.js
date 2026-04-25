@@ -13,9 +13,13 @@ router.post ('/',
                  AirplaneController.createAirplane) 
 
 // /api/v1/airlanes GET request to get all the airplanes
-
 router.get("/",
         AirplaneController.getAirplanes)
+
+
+// /api/v1/airlanes/:id GET request to get a single airplane by id
+router.get("/:id", 
+                  AirplaneController.getAirplane)
                  
 
 module.exports = router;
