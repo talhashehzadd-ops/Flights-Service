@@ -17,19 +17,21 @@ class CrudRepository {
 
     // To delete something
     async destroy(data) {
-    
         const response = await this.model.destroy({
             where: {
                 id: data
             }
         });
+        if (!response){
+            throw new AppError("Not able to find the resource with the given id",StatusCodes.NOT_FOUND); 
+        }
         return response;
     
     }
 
     //obtains a single query from the table using the primary key
     async get(data) {
-        const response = await this.model.findByPk(data);
+        const response = await this.model.findByPk(data);  // here we are finding by primary key that means data should be a primary key
         if (!response){
             throw new AppError("Not able  to find the resource with the given id", StatusCodes.NOT_FOUND);
         }

@@ -1,5 +1,5 @@
 const {StatusCodes} = require ("http-status-codes");                       // we are importing the http status codes because we need to use the status codes in our error handling
-const { AirplaneRepository } = require ("../repositories/index")                // we are importing the airplane repository because we need to create an instance of that class and call the functions of that class
+const { AirplaneRepository } = require ("../repositories/index")          // we are importing the airplane repository because we need to create an instance of that class and call the functions of that class
 
 const AppError  = require("../utils/error/app-error");                  // we are importing the app error class because we need to create an instance of that class and throw the error in case of any error in our code
 
@@ -25,6 +25,7 @@ async function createAirplane (data){
 async function getAirplanes(){
   try {
     const airplane = await airplaneRepository.getAll();
+    console.log(airplane);
     return airplane;
   } catch (error) {
       throw new AppError("Cannot fetch data of all airplanes", StatusCodes.INTERNAL_SERVER_ERROR);
@@ -35,10 +36,10 @@ async function getAirplanes(){
 async function getAirplane (id){
    try {
     const airplane = await airplaneRepository.get(id);
-  return airplane;  
+    return airplane;  
    } catch (error) {
     if (error.statusCode == StatusCodes.NOT_FOUND) {
-        throw new AppError("The airplane you requested is not present", StatusCodes.NOT_FOUND);
+        throw new AppError("The airplane you requested is not present", StatusCodes.NOT_FOUND); // here we are storing StatusCodes.NOT_FOUND value in the variable statusCode
     }
        throw new AppError("Cannot fetch data of the airplane", StatusCodes.INTERNAL_SERVER_ERROR);
    }
@@ -46,9 +47,22 @@ async function getAirplane (id){
 }
 
 
+async function destroyAirplane(id){
+    try {
+      const response = await airplaneRepository.destroy(id);
+      return response;
+    } catch (error) {
+      if(error.statusCode == StatusCodes.NOT_FOUND){
+        throw new AppError("The airplane you are trying to delete is not present", StatusCodes.NOT_FOUND);
+      }
+      throw new AppError("Cannot delete the airplane", StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
 
 module.exports = {
   createAirplane,
   getAirplanes,
-  getAirplane
+  getAirplane,
+  destroyAirplane
 }

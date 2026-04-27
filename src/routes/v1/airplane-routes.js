@@ -9,8 +9,8 @@ const router = express.Router();
 
 // /api/v1/airlanes POST request to create a new airplane
 router.post ('/', 
-                 AirplaneMiddlewares.validateCreateRequest,
-                 AirplaneController.createAirplane) 
+                AirplaneMiddlewares.validateCreateRequest,
+                AirplaneController.createAirplane) 
 
 // /api/v1/airlanes GET request to get all the airplanes
 router.get("/",
@@ -19,7 +19,11 @@ router.get("/",
 
 // /api/v1/airlanes/:id GET request to get a single airplane by id
 router.get("/:id", 
-                  AirplaneController.getAirplane)
-                 
+                AirplaneController.getAirplane)
+                  
+  
+// /api/v1/airlanes/:id DELETE request to delete a single airplane by id
+router.delete("/:id",
+                AirplaneController.destroyAirplane)
 
 module.exports = router;
