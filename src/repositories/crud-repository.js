@@ -6,7 +6,7 @@ const AppError = require("../utils/error/app-error"); // we are importing the ap
 
 class CrudRepository {
     constructor(model) {
-        this.model = model; //  
+        this.model = model; 
     }
 
     // To create something 
