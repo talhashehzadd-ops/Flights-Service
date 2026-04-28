@@ -1,5 +1,3 @@
-// basic SERVER configurations goes here
-
 const express = require('express');
 
 const { ServerConfig , logger} = require('./config')
